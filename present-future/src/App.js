@@ -3,23 +3,11 @@ import "./index.css";
 import Web3 from "web3"
 import Typewriter from "typewriter-effect"
 
-import aapi1 from "./images/aapi1.png"
-import aapi2 from "./images/aapi2.png"
-import aapi3 from "./images/aapi3.png"
-import aapi4 from "./images/aapi4.png"
-import aapi5 from "./images/aapi5.png"
-import mas from "./images/mas.png"
-import quant from "./images/quant.png"
-import stopasian from "./images/asianhate.jpeg"
+
 import twit from "./images/twit.png"
 import tel from "./images/tel.png"
 import ins from "./images/ins.png"
-import AAPI from "./images/Artists/AAPI.NFT.png"
-import David from "./images/Artists/David Nam.png"
-import Lucy from "./images/Artists/Lucy Wang.png"
-import Jenn from "./images/Artists/Jennifer Kim.png"
-import Sak from "./images/Artists/SAKURA.png"
-import Jake from "./images/Artists/Jake Huy.png"
+
 
 
 import question from "./images/3d-question.png"
@@ -55,75 +43,6 @@ function App() {
   }, []);
 
 
-  const firstList = [
-    {
-      type: 1,
-      title: "FOX EYE",
-      content: `Yes I have fox eye. 
-      But no reasons to be insulted.`,
-      img: stopasian,
-      drawn: "Drawn by Lucy Wang",
-      url: "https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/59345103804510908063408009946767618438349379765466021588333484308312602181633"
-    },
-    {
-      type: 2,
-      title: "ASIAN STEREOTYPE",
-      content: `Look at him. That’s my quant. Look at his face!! 
-      Look at this eyes. His name is Yang. 
-      He doesn’t even speak English! - Big Short -`,
-      img: quant,
-      drawn: "Drawn by AAPI.NFT",
-      url: "https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/59345103804510908063408009946767618438349379765466021588333484309412113809409"
-    },
-    {
-      type: 1,
-      title: "MASSACRE",
-      content: " Inspired by Myanmar Democracy, Georgia Atalanta Hate crime. Is it blood? Or rose blossom?",
-      img: mas,
-      drawn: "Drawn by Min Maw Tun",
-      url: "https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/59345103804510908063408009946767618438349379765466021588333484310511625437185"
-    },
-  ]
-  const artistList = [
-    {
-      img: AAPI
-    },
-    {
-      img: Lucy
-    },
-    {
-      img: Jenn
-    },
-    {
-      img: Sak
-    },
-    {
-      img: Jake
-    },
-    {
-      img: David
-    },
-  ]
-  const thanksList = [
-    {
-      add: "0xasasdasdsaasddkasdkqkw",
-      amount: "0.1 ETH"
-    },
-    {
-      add: "0xasasdasdsaasddkasdkqkw",
-      amount: "0.1 ETH"
-    }
-    ,
-    {
-      add: "0xasasdasdsaasddkasdkqkw",
-      amount: "0.1 ETH"
-    }
-    ,
-    {
-      add: "0xasasdasdsaasddkasdkqkw",
-      amount: "0.1 ETH"
-    }
-  ]
   const homeRef = useRef(null)
   const homeScroll = () => homeRef.current.scrollIntoView({ top: -80, behavior: 'smooth' })
   const collectionRef = useRef(null)
