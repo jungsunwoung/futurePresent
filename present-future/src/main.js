@@ -1,4 +1,5 @@
 import React, { useReducer, useRef, useState, useEffect } from "react";
+
 import "./index.css";
 import Web3 from "web3"
 import Typewriter from "typewriter-effect"
@@ -7,6 +8,10 @@ import Faq from "react-faq-component"
 import git from "./images/ico-sns-git.png"
 import kkt from "./images/ico-sns-kkt.png"
 import insta from "./images/ico-sns-insta.png"
+import gitbook from "./images/gitbook.png"
+import twit from "./images/twit.png"
+import telegram from "./images/telegrm.png"
+
 
 import logo from "./images/logo.png"
 import question from "./images/3d-question.png"
@@ -24,7 +29,10 @@ import rocket from "./images/3d-rocket.png"
 import coingecko from "coingecko-api"
 import CountUp from "react-countup"
 import { useHistory } from "react-router";
+import klip from "./images/ico-etc-klip.png"
+import xx from "./images/xx.png"
 
+import Caver from "caver-js"
 
 function reducer(state, action) {
   switch (action.type) {
@@ -44,7 +52,8 @@ function reducer(state, action) {
 }
 
 function Main() {
-
+  
+  
   const data = {
     
     rows: [
@@ -210,15 +219,45 @@ const config = {
   }
   let history = useHistory()
   function move(){
-    history.push("/present")
+    setIsClicked(true)
+  }
+
+  const [isClicked,setIsClicked]=useState(false)
+ async function kakaoClick(){
+  if (typeof window.klaytn !== 'undefined') {
+    // Kaikas user detected. You can now use the provider.
+    const klaytn = window['klaytn']
+    try {
+      const accounts = await klaytn.enable()
+      console.log(accounts, "지갑정보")
+      // You now have an array of accounts!
+      // Currently only one:
+      // ['0xFDEa65C8e26263F6d9A1B5de9555D2931A33b825']
+    } catch (error) {
+      // Handle error. Likely the user rejected the login
+      console.error(error)
+    }
+  }
   }
   return (
+    
     <div style={{
       width: 1920,
       backgroundColor: "#ffffff",
       zIndex: 0,
       position: "relative",
     }}>
+      {isClicked? 
+         <StandardChoiceModal
+         title="Present Future 시작하기"
+         content="내 카카오톡으로 쉽고 안전하게 선물할 수 있습니다."
+         onCancelClick={()=>setIsClicked(false)}
+         kakaoClick={kakaoClick}
+     />
+      :
+      <></> 
+      }
+      
       <div style={{
         position: "fixed",
         top: 0,
@@ -238,8 +277,9 @@ const config = {
           fontWeight: "bold",
           color: "#e5bf78",
           alignSelf: "center",
-          
-        }}><img src={logo}></img></div>
+          width:180,
+          height:45
+        }}><img style={{width:180,height:45}} style={{width:180,height:45}} src={logo}></img></div>
         <div style={{
           display: "flex",
           flexDirection: "row",
@@ -392,10 +432,10 @@ const config = {
             justifyContent: "flex-start"
           }}>
            <div>
-             <img src={main}></img>
+             <img style={{width:480,height:360}} src={main}></img>
            </div>
           </div>
-          
+        
         </div>
         
         </div>
@@ -701,7 +741,7 @@ const config = {
   <div style={{color:"#ffffff",fontSize:24,fontWeight:"bold"}}>주식을 선물하는것처럼 <br></br>
 디지털 자산을 선물해보세요!</div>
 <div style={{fontSize:18,color:"#ffffff",marginTop:16}}>아직도 봉투에 용돈을 담아서 주시나요?</div>
-<div style={{
+<div onClick={()=>setIsClicked(true)} style={{
               width:290,
               
               paddingTop:16,
@@ -720,11 +760,15 @@ const config = {
 </div>
       </div>
       <div style={{paddingLeft:320,paddingRight:320,display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-        <img style={{marginTop:50}} src={logo}></img>
-        <div style={{marginTop:50}}>
-          <img src={kkt} style={{width:48}}></img>
-          <img src={git} style={{width:48,marginLeft:16}}></img>
-          <img src={insta} style={{width:48,marginLeft:16}}></img>
+        <img style={{marginTop:50,width:180,
+          height:45}} src={logo}></img>
+        <div style={{marginTop:50, display:"flex",flexDirection:"row",justifyContent:"flex-start"}}>
+          
+          <a href={"https://open.kakao.com/o/gAsz47zd"} target="_blank"><div><img src={kkt} style={{width:48}}></img></div></a>
+          <a href={""} target="_blank"><div><img src={git} style={{width:48,marginLeft:16}}></img></div></a>
+          <a href={"https://www.instagram.com/presentfuture_nft/"} target="_blank"><div><img src={insta} style={{width:48,marginLeft:16}}></img></div></a>
+          <a href={"https://t.me/presentfuture_nft"} target="_blank"><div><img src={telegram} style={{width:48,marginLeft:16}}></img></div></a>
+          <a href={"https://app.gitbook.com/@presentfuture-1/s/present-future/"} target="_blank"><div><img src={gitbook} style={{width:48,marginLeft:16}}></img></div></a>
 
         </div>
       </div>
@@ -759,6 +803,67 @@ const config = {
       </div>
     </div>
   );
+}
+function StandardChoiceModal({ title, content,onCancelClick,kakaoClick}) {
+  return (
+      <div style={{
+          position: "fixed",
+          top: 0,
+          width: "100vw" ,
+          height: "100vh",
+
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "rgba(0, 0, 0, 0.4)",
+          zIndex: 10
+      }}>
+          <div style={{
+              width:  400,
+              height:464,
+              paddingTop: 16,
+              backgroundColor: "#ffffff",
+              borderRadius: 6,
+
+              display: "flex",
+              flexDirection: "column",
+          }}>
+              
+              <img onClick={onCancelClick} style={{width:20,alignSelf:"flex-end",marginRight:18,cursor:"pointer"}} src={xx}></img>
+              <div style={{
+                  fontFamily: "NotoSansCJKkr",
+                  fontSize: 21,
+                  fontWeight: "bold",
+                  
+                  marginLeft:32
+              }}>{title}</div>
+              <div style={{
+                  fontFamily: "NotoSansCJKkr",
+                  fontSize: 16,
+                  marginTop:44,
+                  marginLeft:32
+              }}>{content}</div>
+              
+              <div style={{backgroundColor:"#fbe54d",width:336,marginLeft:32,borderRadius:9,marginTop:32}}>
+                  <div onClick={kakaoClick} style={{display:"flex",flexDirection:"row",justifyContent:"center",padding:18}}>
+                      <div><img style={{width:32,marginRight:5}}src={klip}></img></div>
+                      <div>카카오톡 Klip 지갑 연결</div>
+                  </div>
+              </div>
+          
+              <div style={{textAlign:"center",opacity:0.8,fontSize:12,textDecoration:"underline",marginTop:16}}>내 손안의 디지털 지갑, Klip 안내</div>
+              <div style={{display:"flex",flexDirection:"row",justifyContent:"center",marginTop:32}}>
+
+                  <div style={{width:148,marginTop:8.5,height:0,border:"solid 1px #dbdbdb"}}></div>
+                  <div style={{opacity:0.6,marginLeft:9,marginRight:9}}>또는</div>
+                  <div style={{width:148,marginTop:8.5,height:0,border:"solid 1px #dbdbdb"}}></div>
+              </div>
+              <div style={{width:336,borderRadius:9,border:"solid 1px #3fa2f6",marginLeft:32,marginTop:32,marginBottom:64}}>
+                  <div style={{color:"#3fa2f6",textAlign:"center",padding:18}}>구매대행 신청하기</div>
+              </div>
+          </div>
+      </div>
+  )
 }
 
 export default Main;

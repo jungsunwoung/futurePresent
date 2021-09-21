@@ -201,8 +201,9 @@ function home(){
           fontWeight: "bold",
           color: "#e5bf78",
           alignSelf: "center",
-          
-        }}><img src={logo}></img></div>
+          width:180,
+          height:45
+        }}><img style={{width:180,height:45}} src={logo}></img></div>
         <div style={{
           display: "flex",
           flexDirection: "row",
