@@ -17,7 +17,7 @@ import back from "./images/back.png"
 
 import coingecko from "coingecko-api"
 import CountUp from "react-countup"
-import { useHistory } from "react-router";
+import { useHistory,useLocation } from "react-router";
 
 function reducerA(state, action) {
     switch (action.type) {
@@ -66,6 +66,17 @@ function Klay() {
         dispatchB({ type: 'THREE' });
     };
     
+
+    const location = useLocation()
+    const myparam = location.state.param
+    useState(()=>{
+        if(myparam=="small"){
+            onTHOU()
+        }else{
+            onHUND()
+        }
+    })
+
 
 
     const Button = ({ onClick, state, number, content }) => {

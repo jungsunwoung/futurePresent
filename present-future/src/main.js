@@ -34,6 +34,7 @@ import xx from "./images/xx.png"
 
 import Caver from "caver-js"
 
+import FadeLoader from "react-spinners/FadeLoader"
 function reducer(state, action) {
   switch (action.type) {
     case '소개':
@@ -84,6 +85,7 @@ function Main() {
         {
           title: "Q4. 선물 받은 기프트 카트 NFT를 디지털 자산으로 교환하고 싶습니다. 어떻게 해야하나요? ",
           content: `기프트 카드 발급을 위해 예치된 디지털 자산은 블록체인 상 스마트 컨트랙트에 안전하게 보관됩니다.
+
           기프트 카드 NFT를 소유한 사람외에 누구도(Present Future 포함) 해당 자산에 접근할 수 없으며, 혹시나 모를 해킹에 대비해 Time lock 기능을 추가했습니다.
           컨트랙트는 프로젝트 깃허브에서 확인할 수 있으며, 변경이나 업데이트 사항은 홈페이지를 통해 투명하게 공개하겠습니다.`,
       },
@@ -202,6 +204,7 @@ const config = {
 
   useEffect(() => {
       window.addEventListener("scroll", handleScroll);
+      
   }, [])
 
   const handleScroll = () => {
@@ -223,13 +226,18 @@ const config = {
   }
 
   const [isClicked,setIsClicked]=useState(false)
+  const [kaikasLoading,setKaikasLoading]=useState(true)
  async function kakaoClick(){
   if (typeof window.klaytn !== 'undefined') {
     // Kaikas user detected. You can now use the provider.
     const klaytn = window['klaytn']
     try {
+      setKaikasLoading(false)
       const accounts = await klaytn.enable()
       console.log(accounts, "지갑정보")
+      if(accounts[0].length>0){
+        history.push("/present")
+      }
       // You now have an array of accounts!
       // Currently only one:
       // ['0xFDEa65C8e26263F6d9A1B5de9555D2931A33b825']
@@ -239,6 +247,10 @@ const config = {
     }
   }
   }
+  function cancel(){
+    setIsClicked(false)
+    setKaikasLoading(true)
+  }
   return (
     
     <div style={{
@@ -247,17 +259,25 @@ const config = {
       zIndex: 0,
       position: "relative",
     }}>
-      {isClicked? 
+      {isClicked && kaikasLoading? 
          <StandardChoiceModal
          title="Present Future 시작하기"
          content="내 카카오톡으로 쉽고 안전하게 선물할 수 있습니다."
-         onCancelClick={()=>setIsClicked(false)}
+         onCancelClick={cancel}
          kakaoClick={kakaoClick}
      />
       :
-      <></> 
+      <></>
       }
+      {isClicked&&kaikasLoading===false?
+      <WatingModal
+      title="Present Future 시작하기"
+      onCancelClick={cancel}
       
+      ></WatingModal>
+      :
+      <></>
+      }
       <div style={{
         position: "fixed",
         top: 0,
@@ -861,6 +881,45 @@ function StandardChoiceModal({ title, content,onCancelClick,kakaoClick}) {
               <div style={{width:336,borderRadius:9,border:"solid 1px #3fa2f6",marginLeft:32,marginTop:32,marginBottom:64}}>
                   <div style={{color:"#3fa2f6",textAlign:"center",padding:18}}>구매대행 신청하기</div>
               </div>
+          </div>
+      </div>
+  )
+}
+function WatingModal({ title, content,onCancelClick,kakaoClick}) {
+  return (
+      <div style={{
+          position: "fixed",
+          top: 0,
+          width: "100vw" ,
+          height: "100vh",
+
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "rgba(0, 0, 0, 0.4)",
+          zIndex: 10
+      }}>
+          <div style={{
+              width:  400,
+              height:230,
+              paddingTop: 16,
+              backgroundColor: "#ffffff",
+              borderRadius: 6,
+
+              display: "flex",
+              flexDirection: "column",
+          }}>
+              
+              <img onClick={onCancelClick} style={{width:20,alignSelf:"flex-end",marginRight:18,cursor:"pointer"}} src={xx}></img>
+              <div style={{
+                  fontFamily: "NotoSansCJKkr",
+                  fontSize: 21,
+                  fontWeight: "bold",
+                  
+                  marginLeft:32
+              }}>{title}</div>
+             <div style={{marginTop:70,marginLeft:170}}>
+             <FadeLoader color={"#3fa2f6"}  size={150}></FadeLoader></div>
           </div>
       </div>
   )
